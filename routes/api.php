@@ -20,7 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'postLoginSiswa']);
 Route::post('/logout', [UserController::class, 'postLogout']);
-
+Route::post('/createTask', [SiswaContoller::class, 'postTaskSiswa']);
+Route::get('/getOptionsBot/{id}', [SiswaContoller::class, 'getOptionsBot']);
+Route::post('/postBot', [SiswaContoller::class, 'postBotOption']);
+Route::get('/getBot', [SiswaContoller::class, 'getBotOption']);
 
 Route::get('/dashboard', [SiswaContoller::class, 'getDataSiswa']);
 Route::get('/getMapelSiswa/{id}', [SiswaContoller::class, 'getDataMapelSiswa']);
@@ -36,6 +39,11 @@ Route::get('/getDaftarSiswa/{id}', [SiswaContoller::class, 'daftarSiswa']);
 Route::get('/getJadwalku/{id}', [SiswaContoller::class, 'jadwalku']);
 Route::get('/getDateRange', [SiswaContoller::class, 'dateRange']);
 Route::get('/getListChatbot/{id}', [SiswaContoller::class, 'listChatbot']);
+Route::get('/getQuizQuestions/{id}', [MapelController::class, 'quizQuestions']);
+Route::get('/getDataRanking/{id}', [SiswaContoller::class, 'getHasilRanking']);
+Route::get('/getHasilRank1/{id}', [SiswaContoller::class, 'rank1']);
+Route::get('/getHasilRank2/{id}', [SiswaContoller::class, 'rank2']);
+Route::get('/getHasilRank3/{id}', [SiswaContoller::class, 'rank3']);
 
 Route::get('matapelajaran', [MapelController::class, 'index']);
 Route::post('matapelajaran/store', [MapelController::class, 'store']);

@@ -20,6 +20,7 @@ class CreateMapelTable extends Migration
             $table->foreignId('guru_id')->references('id')->on('guru')->onDelete('cascade');
             $table->string('nama_mapel')->unique();
             $table->string('mapel_id')->unique();
+            $table->double('progress')->default(0.1);
             $table->longText('deskripsi');
             $table->string('hari_pelajaran');
             $table->mediumText('jam_pelajaran');

@@ -20,6 +20,7 @@ class CreateBotTable extends Migration
             $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade');
             $table->string('nama_bot');
             $table->string('bot_number')->unique();
+            $table->timestamps();
         });
     }
 

@@ -14,6 +14,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "sastrawi/sastrawi": "^1.2",
         "tinymce/tinymce": "^6.4"
     },
     "require-dev": {

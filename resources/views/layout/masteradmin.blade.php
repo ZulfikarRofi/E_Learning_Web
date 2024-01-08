@@ -42,8 +42,70 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- Multiple Select -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+    <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <!-- Quiz Logic -->
+    <script>
+        // JavaScript logic here...
+        let questionCount = 0;
+
+        function addQuestion() {
+            questionCount++;
+
+            const questionTemplate = `
+                <div class="question">
+                <h4>Question ${questionCount}</h4>
+                <input type="text" name="question${questionCount}" placeholder="Enter question">
+                <label><input type="radio" name="answer${questionCount}" value="1"> Option 1</label>
+                <label><input type="radio" name="answer${questionCount}" value="2"> Option 2</label>
+                <label><input type="radio" name="answer${questionCount}" value="3"> Option 3</label>
+                <label><input type="radio" name="answer${questionCount}" value="4"> Option 4</label>
+                <button class="removeQuestion">Remove</button>
+                </div>
+                `;
+
+            const questionElement = document.createElement('div');
+            questionElement.classList.add('questionContainer');
+            questionElement.innerHTML = questionTemplate;
+
+            document.getElementById('quizForm').appendChild(questionElement);
+        }
+
+        function removeQuestion(event) {
+            event.target.closest('.questionContainer').remove();
+        }
+
+        document.getElementById('addQuestion').addEventListener('click', addQuestion);
+
+        document.getElementById('quizForm').addEventListener('click', function(event) {
+            if (event.target.classList.contains('removeQuestion')) {
+                removeQuestion(event);
+            }
+        });
+
+        document.getElementById('submitQuiz').addEventListener('click', function() {
+            const questions = document.querySelectorAll('.question');
+            const quizData = [];
+
+            questions.forEach((question) => {
+                const questionText = question.querySelector('input[type="text"]').value;
+                const answer = question.querySelector('input[type="radio"]:checked');
+                const answerValue = answer ? answer.value : null;
+
+                if (questionText && answerValue) {
+                    quizData.push({
+                        question: questionText,
+                        answer: answerValue,
+                    });
+                }
+            });
+
+            // Send quizData to server or perform further actions
+            console.log(quizData);
+        });
+    </script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -126,7 +188,7 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/profile.html">
+                    <a class="nav-link text-white " href="/profile/{{auth()->user()->id}}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
                         </div>

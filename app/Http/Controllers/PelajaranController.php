@@ -12,7 +12,6 @@ use App\Models\Report;
 use App\Models\Siswa;
 use App\Models\Task;
 use Carbon\Carbon;
-use FontLib\TrueType\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -300,11 +299,12 @@ class PelajaranController extends Controller
         return view('pages.detailMapel', compact('dataMapel', 'id', 'modul', 'totalModul', 'kuis', 'totalKuis', 'totalTask', 'allKuis'));
     }
 
-    public function setProgressMapel(Request $request, $id){
+    public function setProgressMapel(Request $request, $id)
+    {
 
         $request->validate([
-                'progress_range' => 'required',
-            ]);
+            'progress_range' => 'required',
+        ]);
 
         $mapel = MataPelajaran::find($id);
         $mapel->progress = $request->progress_range;
@@ -522,10 +522,10 @@ class PelajaranController extends Controller
         // $getIdBefore = DB::table('kuis')->orderByDesc('id')->pluck('id')->first();
         // dd($getIdBefore);
         $totalKuis = DB::table('kuis')
-        ->join('mapel', 'kuis.mapel_id', '=', 'mapel.id')
-        ->join('guru', 'mapel.guru_id', '=', 'guru.id')
-        ->where('guru.id', auth()->user()->guru_id)
-        ->count();
+            ->join('mapel', 'kuis.mapel_id', '=', 'mapel.id')
+            ->join('guru', 'mapel.guru_id', '=', 'guru.id')
+            ->where('guru.id', auth()->user()->guru_id)
+            ->count();
         // dd($kuis, $totalKuis);
 
 
@@ -608,6 +608,7 @@ class PelajaranController extends Controller
             ->where('kuis.id', $id)
             ->first();
         // dd($allKuis);
+        $totalSoal = DB::table('questions')->where('kuis_id', $id)->count();
 
         $reportId = DB::table('report')->selectRaw('report.id as id, kuis.id as kuis_id')
             ->join('kuis', 'report.kuis_id', '=', 'kuis.id')
@@ -680,7 +681,7 @@ class PelajaranController extends Controller
         View::share('activities', $activities);
 
         // dd($reportId);
-        return view('pages.detailkuis', compact('kuis', 'reportId', 'allKuis'));
+        return view('pages.detailkuis', compact('kuis', 'reportId', 'allKuis', 'totalSoal'));
     }
 
     public function addQuiz(Request $request, $id)
@@ -786,7 +787,8 @@ class PelajaranController extends Controller
         }
         $report->report_number = 'Rp' . '-' . str_pad($getIdBeforeRp, 3, '0', STR_PAD_LEFT) . '-' . $fixCode;
         $report->save();
-        // dd($kuis, $report);        return redirect('/kuis')->with('success', 'Kuis Baru Telah Ditambahkan');
+        // dd($kuis, $report);
+        return redirect('/kuis')->with('success', 'Kuis Baru Telah Ditambahkan');
     }
 
     public function deleteKuis($id)

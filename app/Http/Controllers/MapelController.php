@@ -5,11 +5,42 @@ namespace App\Http\Controllers;
 use App\Helpers\RestAPIFormatter;
 use App\Models\MataPelajaran;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
 
 class MapelController extends Controller
 {
+
+    public function quizQuestions($id)
+    {
+        $data = new Collection();
+        $questions = DB::table('questions')
+            ->where('kuis_id', $id)
+            ->get();
+        $kuis = DB::table('kuis')->where('id', $id)->first();
+        foreach ($questions as $ms) {
+            $true = DB::table('options')->selectRaw('option_text')->where('question_id', $ms->id)->where('status', 'true')->value('option_text');
+            $false = DB::table('options')->where('question_id', $ms->id)->where('status', 'false')->pluck('option_text');
+            $data->push([
+                'type' => "multiple",
+                'difficulty' => "medium",
+                "category" => $kuis->nama_kuis,
+                "question" => $ms->question_text,
+                'correct_answer' => $true,
+                'false_answer' => $false,
+            ]);
+        }
+        if ($data) {
+            return RestAPIFormatter::createAPI(200, 'Success', $data);
+        } else {
+            return RestAPIFormatter::createAPI(400, 'Failed');
+        }
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *

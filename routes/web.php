@@ -38,11 +38,11 @@ Route::post('/login', [UserController::class, 'postLogin']);
 Route::post('/logout', [UserController::class, 'postLogout']);
 
 
-// Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
     //Routing Get
     Route::get('/manajemenPelajaran', [PelajaranController::class, 'getAllData']);
     Route::get('/task', [PelajaranController::class, 'getTaskData']);
-    Route::get('/detail/hasil/{id}', [PelajaranController::class,'getSelectedReport']);
+    Route::get('/detail/hasil/{id}', [PelajaranController::class, 'getSelectedReport']);
     Route::get('/detail/kuis/{id}', [PelajaranController::class, 'getSelectedKuis']);
     Route::get('/detail/kelas/{id}', [PelajaranController::class, 'getSelectionClass']);
     Route::get('/detail/tugas/{id}', [PelajaranController::class, 'getSelectedTask']);
@@ -64,6 +64,13 @@ Route::post('/logout', [UserController::class, 'postLogout']);
     Route::get('/botRingkasan', [DashboardController::class, 'botRingkas']);
     Route::get('/', [DashboardController::class, 'getDashboard']);
     Route::get('tes', [PelajaranController::class, 'getAllActivities']);
+    Route::get('/addQuestion/{id}', [DashboardController::class, 'addQuestion']);
+    Route::get('/addGroups', [DashboardController::class, 'addGroupSoal']);
+    Route::get('/addOpsi/{id}', [DashboardController::class, 'addOpsi']);
+    Route::get('/configQuiz/{id}', [DashboardController::class, 'configQuiz']);
+    Route::get('/detailSoal/{id}', [DashboardController::class, 'detailSoal']);
+    Route::get('/getNlp', [DashboardController::class, 'nLP']);
+    Route::get('/profile/{id}', [DashboardController::class, 'getProfile']);
 
     //Routing Post
     Route::post('/addPeriod', [PelajaranController::class, 'addPeriod']);
@@ -76,6 +83,11 @@ Route::post('/logout', [UserController::class, 'postLogout']);
     Route::post('/storeAddGuru', [PenggunaController::class, 'storeGuru']);
     Route::post('/storeBot', [DashboardController::class, 'createBot']);
     Route::post('/storeListChatbot', [DashboardController::class, 'createListChatbot']);
+    Route::post('/storeGroup', [DashboardController::class, 'createGroups']);
+    Route::post('/storeSoal', [DashboardController::class, 'createQuestion']);
+    Route::post('/storeOpsi', [DashboardController::class, 'createOption']);
+    Route::post('/storeNLP', [DashboardController::class, 'nLP']);
+    Route::post('/changePassword/{id}', [UserController::class, 'changePassword']);
 
     //Routing Patch
     Route::patch('/editStatus/{id}', [PelajaranController::class, 'editStatus']);
@@ -87,4 +99,5 @@ Route::post('/logout', [UserController::class, 'postLogout']);
     Route::delete('/deletePeriod/{id}', [PelajaranController::class, 'deletePeriod']);
     Route::delete('/hapuskuis/{id}', [PelajaranController::class, 'deleteKuis']);
     Route::delete('/deleteModul/{id}', [PelajaranController::class, 'deleteModul']);
-// });
+    Route::delete('/deleteBot/{id}', [DashboardController::class, 'deleteBot']);
+});

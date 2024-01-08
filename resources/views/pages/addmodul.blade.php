@@ -4,6 +4,17 @@
 
 <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
     <div class="card">
+
+        @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <div class="card-header pb-0">
             <div class="row">
                 <div class="col-lg-6 col-7">

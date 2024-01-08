@@ -10,6 +10,7 @@ use App\Models\Users;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -48,14 +49,13 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = DB::table('users')->selectRaw('id as id_user, name, email, password, siswa_id, level, status')->where('email', $request->email)->get();
             $siswa = DB::table('siswa')->where('email', $request->email)->first();
             $message = 'Login Succesful';
             $msg = true;
             $respon = true;
-        }
-        else {
+        } else {
             $msg = 'Invalid credentials. Please try again.';
             $respon = false;
         }
@@ -108,5 +108,27 @@ class UserController extends Controller
 
 
         return redirect('/login');
+    }
+
+
+    public function changePassword(Request $request, $id)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::find($id);// Get the authenticated user
+
+        // Check if the current password matches the user's password
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->with('error', 'The current password is incorrect.');
+        }
+
+        // Update the user's password with the new password
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
     }
 }

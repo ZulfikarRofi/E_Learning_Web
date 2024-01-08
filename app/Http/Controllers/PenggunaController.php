@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Guru;
 use App\Models\MataPelajaran;
+use App\Models\Modul;
 use App\Models\Siswa;
 use App\Models\Users;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,10 +20,8 @@ class PenggunaController extends Controller
         $murid = Siswa::all();
         $admin = Admin::all();
 
-        foreach($guru as $g)
-        {
+        foreach ($guru as $g) {
             $data = DB::table('guru')->join('mapel', 'mapel.guru_id', '=', 'guru.id')->get();
-
         }
 
         // dd($data);
@@ -35,7 +34,7 @@ class PenggunaController extends Controller
         $request->validate([
             'nama_guru' => 'required',
             'nip' => 'required',
-            'email' => 'required|email:unique',
+            'email' => 'required',
             'jabatan' => 'required',
             'jenis_kelamin' => 'required',
             'ttl' => 'required',

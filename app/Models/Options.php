@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kuis extends Model
+class Options extends Model
 {
     use HasFactory;
 
-    protected $table = 'kuis';
-    public function questionsQuiz()
+    protected $table = 'options';
+
+    public function answer()
     {
-        return $this->hasMany(Question::class);
+        return $this->belongsTo(Question::class);
     }
 }

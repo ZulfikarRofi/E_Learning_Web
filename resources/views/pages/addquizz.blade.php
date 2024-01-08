@@ -19,7 +19,7 @@
             </div>
             <form role="form">
                 <div class="form-wrapper">
-                @section('additionaljs')
+                    @section('additionaljs')
                     <script id="loopSoal" type="text/x-handlebars-template">
                         <div class="hapusRowPerSoal row mb-2">
                             <h6 class="fw-bold">Soal <span class="" id="numberDisplay">1</span></h6>
@@ -98,7 +98,6 @@
                         </div>
                     </script>
                 </div>
-                {{-- </script> --}}
 
                 <script>
                     //Looping Tampilan Soal
@@ -134,20 +133,13 @@
                             $('#numberDisplay' + number).text(number);
                             // console.log(source);
 
-                            tinymce.init({
-                                selector: 'textarea',
-                                height: 500,
-                                plugins: [
-                                    'link image imagetools table spellchecker lists'
-                                ],
-                                contextmenu: 'link image imagetools table spellchecker lists',
-                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                            });
+
+                            initializeTinyMCE();
                         });
                         //hapus form
                         $(document).on('click', '.hapusSoal', function(event) {
-
                             $(this).closest('.hapusRowPerSoal').remove();
+                            alert('hapus worked');
                             console.log('test');
                         });
 
@@ -155,30 +147,30 @@
                         $(".submit").click(function() {
 
                             var nomor_soal = $('input[name="nomor_soal"]').val();
-                            var isi_soal = $("input[name='isiSoal']").map(function(){
+                            var isi_soal = $("input[name='isiSoal']").map(function() {
                                 return this.value;
-                            });
-                            var opsi1 = $('input[name="opsi1"]').map(function(){
+                            }).get();
+                            var opsi1 = $('input[name="opsi1"]').map(function() {
                                 return this.value;
-                            });
-                            var opsi2 = $('input[name="opsi2"]').map(function(){
+                            }).get();
+                            var opsi2 = $('input[name="opsi2"]').map(function() {
                                 return this.value;
-                            });
-                            var opsi3 = $('input[name="opsi3"]').map(function(){
+                            }).get();
+                            var opsi3 = $('input[name="opsi3"]').map(function() {
                                 return this.value;
-                            });
-                            var opsi4 = $('input[name="opsi4"]').map(function(){
+                            }).get();
+                            var opsi4 = $('input[name="opsi4"]').map(function() {
                                 return this.value;
-                            });
-                            console.log(nomor_soal, isi_soal, opsi1, opsi2,opsi3,opsi4);
+                            }).get();
+                            console.log(nomor_soal, isi_soal, opsi1, opsi2, opsi3, opsi4);
                             Swal.fire({
-                            title: 'Do you want to save the changes?',
-                            showDenyButton: true,
-                            showCancelButton: true,
-                            confirmButtonText: 'Save',
-                            denyButtonText: `Don't save`,
+                                title: 'Do you want to save the changes?',
+                                showDenyButton: true,
+                                showCancelButton: true,
+                                confirmButtonText: 'Save',
+                                denyButtonText: `Don't save`,
                             }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
+                                /* Read more about isConfirmed, isDenied below */
                                 if (result.isConfirmed) {
                                     Swal.fire('Saved!', '', 'success')
                                 } else if (result.isDenied) {
@@ -187,25 +179,26 @@
                             });
                         });
 
+                        function initializeTinyMCE() {
+                            tinymce.init({
+                                selector: 'textarea.context-menu',
+                                height: 500,
+                                plugins: [
+                                    'link image imagetools table spellchecker lists'
+                                ],
+                                contextmenu: 'link image imagetools table spellchecker lists',
+                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            });
+                        }
 
-
-
-                        tinymce.init({
-                            selector: 'textarea.context-menu',
-                            height: 500,
-                            plugins: [
-                                'link image imagetools table spellchecker lists'
-                            ],
-                            contextmenu: 'link image imagetools table spellchecker lists',
-                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                        });
+                        initializeTinyMCE();
                     });
                 </script>
                 @endsection
                 <div class="text-end">
                     <button type="button" class="hapusSoal btn btn-outline-danger mt-4 me-2" id="hapusSoal" onclick="">Hapus Soal</button>
                     <button type="button" class="tambahSoal btn btn-secondary mt-4 me-2" id="tambahSoal" onclick="">Tambah Soal</button>
-                    <input type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-25 mt-2 mb-0 submit" value="Submit"/>
+                    <input type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-25 mt-2 mb-0 submit" value="Submit" />
                 </div>
             </form>
         </div>

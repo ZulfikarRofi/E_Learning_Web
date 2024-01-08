@@ -37,4 +37,10 @@
     cursor: pointer;
 }
 
-
+div.text-ellipsis {
+    white-space: nowrap;
+    width: 1 rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #000000;
+}

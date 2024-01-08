@@ -16,7 +16,7 @@
                             <i class="fa fa-ellipsis-v text-secondary"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                            <li><a class="dropdown-item border-radius-md" href="/addquizz/{{$allKuis->id}}">Edit Kuis</a></li>
+                            <li><a class="dropdown-item border-radius-md" href="/configQuiz/{{$allKuis->id}}">Edit Kuis</a></li>
                             <li><a class="dropdown-item border-radius-md" data-bs-toggle="modal" data-bs-target="#hapusKuis">Hapus Kuis</a></li>
                         </ul>
                     </div>
@@ -29,7 +29,7 @@
                     <ul class="ps-0">
                         <li style="list-style: none;">Subjek : <span class="fw-bold" style="text-transform: caoitalize;">{{$allKuis->nama_mapel}}</span> </li>
                         <li style="list-style: none;">Waktu Pengerjaan : <span class="fw-bold" style="text-transform: capitalize;">0 Menit</span></li>
-                        <li style="list-style: none;">Total Soal : <span class="fw-bold" style="text-transform: capitalize;">0 Soal</span></li>
+                        <li style="list-style: none;">Total Soal : <span class="fw-bold" style="text-transform: capitalize;">{{$totalSoal}} Soal</span></li>
                         <li style="list-style: none;">Jam Pengerjaan : <span class="fw-bold text-primary" style="text-transform: capitalize;">{{$allKuis->duedate}}</span></li>
                     </ul>
                 </div>
